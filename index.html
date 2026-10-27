@@ -111,9 +111,9 @@
                     <div class="text-xs text-gray-600 font-bold mt-1">東京 / 靜岡酒店</div>
                 </div>
                 <div onclick="switchTab('checklist')" class="neo-box bg-orange-100 p-4 rounded-xl cursor-pointer hover:bg-orange-200 transition">
-                    <div class="text-2xl mb-1 text-orange-600"><i class="fa-solid fa-suitcase"></i></div>
+                    <div class="text-2xl mb-1 text-orange-600"><i class="fa-solid fa-backpack"></i></div>
                     <div class="font-black">行李清單</div>
-                    <div class="text-xs text-gray-600 font-bold mt-1">裝備與證件</div>
+                    <div class="text-xs text-gray-600 font-bold mt-1">雲端新增 + 本地勾選</div>
                 </div>
             </div>
         </section>
@@ -125,7 +125,7 @@
             </h2>
             
             <!-- 去程 -->
-            <div class="nb-card p-4 bg-white">
+            <div class="neo-box p-4 bg-white rounded-xl">
                 <div class="flex justify-between items-center mb-3">
                     <span class="bg-pink-300 text-xs font-black px-2 py-1 neo-box-sm rounded">
                         <i class="fa-solid fa-plane-departure mr-1"></i> 去程 · 隨心飛
@@ -154,7 +154,7 @@
             </div>
 
             <!-- 回程 -->
-            <div class="nb-card p-4 bg-white">
+            <div class="neo-box p-4 bg-white rounded-xl">
                 <div class="flex justify-between items-center mb-3">
                     <span class="bg-teal-300 text-xs font-black px-2 py-1 neo-box-sm rounded">
                         <i class="fa-solid fa-plane-arrival mr-1"></i> 回程 · 隨心飛
@@ -183,7 +183,7 @@
             </div>
 
             <!-- 行李與報到須知 -->
-            <div class="nb-card p-4 bg-[#FFEAA7]">
+            <div class="neo-box p-4 bg-[#FFEAA7] rounded-xl">
                 <h4 class="font-black mb-2 flex items-center gap-2">
                     <i class="fa-solid fa-suitcase-rolling"></i> 行李與報到須知
                 </h4>
@@ -199,7 +199,7 @@
         <section id="section-schedule" class="hidden space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-black bg-yellow-200 px-3 py-1 neo-box inline-block">
-                    <i class="fa-solid fa-map mr-1"></i> 每日行程
+                    <i class="fa-solid fa-map mr-1"></i> 每日行程 (雲端同步)
                 </h2>
                 <button onclick="openAddModal()" class="neo-button bg-green-300 px-3 py-1 text-xs font-black rounded-lg">
                     <i class="fa-solid fa-plus mr-1"></i> 新增行程
@@ -240,16 +240,19 @@
 
         <!-- 5. 清單 Section -->
         <section id="section-checklist" class="hidden space-y-4">
-            <h2 class="text-xl font-black bg-orange-200 px-3 py-1 neo-box inline-block">
-                <i class="fa-solid fa-list-check mr-1"></i> 行李與準備清單
-            </h2>
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-black bg-orange-200 px-3 py-1 neo-box inline-block">
+                    <i class="fa-solid fa-list-check mr-1"></i> 行李與準備清單
+                </h2>
+                <span class="text-xs font-bold bg-orange-100 text-orange-800 px-2 py-1 neo-box-sm rounded">雲端新增 + 本地勾選</span>
+            </div>
             
             <div class="neo-box bg-white p-4 rounded-xl space-y-3">
                 <div id="checklist-items" class="space-y-2">
                     <!-- 動態載入清單 -->
                 </div>
                 <div class="flex gap-2 mt-4 pt-3 border-t-2 border-dashed border-gray-200">
-                    <input type="text" id="new-item-input" placeholder="新增準備物品..." class="flex-1 neo-box px-3 py-1.5 text-sm font-bold rounded-lg outline-none">
+                    <input type="text" id="new-item-input" placeholder="新增共用行李項目 (同步比大家睇)..." class="flex-1 neo-box px-3 py-1.5 text-sm font-bold rounded-lg outline-none">
                     <button onclick="addChecklistItem()" class="neo-button bg-pink-300 px-4 py-1.5 font-black text-sm rounded-lg">
                         <i class="fa-solid fa-plus mr-1"></i> 新增
                     </button>
@@ -282,13 +285,29 @@
         </div>
     </div>
 
+    <!-- 刪除行李確認 Modal (帶有雲端刪除 Checkbox) -->
+    <div id="checklist-delete-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="neo-box bg-white p-5 rounded-xl max-w-xs w-full space-y-4">
+            <h3 class="font-black text-lg text-red-600"><i class="fa-solid fa-triangle-exclamation mr-1"></i> 移除確認</h3>
+            <p id="delete-modal-text" class="text-xs font-bold text-gray-700"></p>
+            <div class="bg-gray-50 p-3 neo-box-sm rounded-lg flex items-center gap-2">
+                <input type="checkbox" id="delete-cloud-checkbox" class="w-4 h-4 accent-red-600 cursor-pointer">
+                <label for="delete-cloud-checkbox" class="text-xs font-bold text-red-700 cursor-pointer">同時從雲端刪除（所有人同步刪除）</label>
+            </div>
+            <div class="flex gap-2 justify-end">
+                <button onclick="closeChecklistDeleteModal()" class="neo-button bg-gray-200 px-4 py-1.5 font-bold text-sm rounded-lg">取消</button>
+                <button onclick="confirmChecklistDelete()" class="neo-button bg-red-300 px-4 py-1.5 font-black text-sm rounded-lg">確認移除</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDK 引入 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // ==========================================
-        // TODO: 請換成你從 Firebase Console 複製的設定
+        // Firebase 設定
         // ==========================================
         const firebaseConfig = {
           apiKey: "AIzaSyAQJatKRC34MbBlyY7pmhQdluf0qKNShJg",
@@ -317,23 +336,26 @@
                 7: [{ time: "上午", title: "東京市區探索", desc: "最後衝刺購物" }],
                 8: [{ time: "19:00", title: "成田機場起飛 (UO647)", desc: "回程返抵香港 (23:25)" }]
             },
-            checklist: [
-                { id: 1, text: "香港護照 (有效期 6 個月以上)", checked: true },
-                { id: 2, text: "Visit Japan Web 申報", checked: false },
-                { id: 3, text: "Suica / PASMO 或 智能電話八達通", checked: true },
-                { id: 4, text: "日元現金 / 信用卡", checked: true },
-                { id: 5, text: "SIM 卡 / Roaming 漫遊設定", checked: false }
+            checklistItems: [
+                { id: 1, text: "香港護照 (有效期 6 個月以上)" },
+                { id: 2, text: "Visit Japan Web 申報" },
+                { id: 3, text: "Suica / PASMO 或 智能電話八達通" },
+                { id: 4, text: "日元現金 / 信用卡" },
+                { id: 5, text: "SIM 卡 / Roaming 漫遊設定" }
             ]
         };
 
         let appData = JSON.parse(JSON.stringify(defaultData));
         let activeDay = 1;
+        let pendingDeleteId = null; // 記錄當前準備刪除嘅 item ID
 
         // 即時監聽 Firestore 資料變更（實現多裝置實時同步）
         const syncStatus = document.getElementById('sync-status');
         onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
-                appData = docSnap.data();
+                const data = docSnap.data();
+                if (data.schedule) appData.schedule = data.schedule;
+                if (data.checklistItems) appData.checklistItems = data.checklistItems;
                 syncStatus.innerHTML = `<i class="fa-solid fa-cloud mr-1 text-green-600"></i> 已雲端同步`;
                 syncStatus.className = "text-xs font-bold text-green-600 bg-green-50 px-2 py-1 neo-box";
             } else {
@@ -357,6 +379,19 @@
             }
         }
 
+        // --- 本地 Check & Remove 狀態管理 (localStorage) ---
+        function getLocalChecklistState() {
+            const checked = JSON.parse(localStorage.getItem('my_checklist_checked') || '{}');
+            const hidden = JSON.parse(localStorage.getItem('my_checklist_hidden') || '[]');
+            return { checked, hidden };
+        }
+
+        function saveLocalChecklistState(checked, hidden) {
+            localStorage.setItem('my_checklist_checked', JSON.stringify(checked));
+            localStorage.setItem('my_checklist_hidden', JSON.stringify(hidden));
+            renderChecklist();
+        }
+
         // Tab 切換邏輯
         window.switchTab = function(tabName) {
             ['home', 'flight', 'schedule', 'hotel', 'checklist'].forEach(t => {
@@ -365,6 +400,7 @@
             });
             document.getElementById(`section-${tabName}`).classList.remove('hidden');
             document.getElementById(`tab-${tabName}`).className = "neo-button px-3 py-1.5 font-bold bg-pink-300 rounded-lg whitespace-nowrap";
+            if (tabName === 'checklist') renderChecklist();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -470,45 +506,87 @@
             }
         }
 
-        // 渲染 CheckList
+        // 渲染 CheckList (雲端共用項目 + 本地勾選與移除)
         function renderChecklist() {
             const container = document.getElementById('checklist-items');
             container.innerHTML = '';
-            appData.checklist.forEach(item => {
+            
+            const { checked, hidden } = getLocalChecklistState();
+            const pool = appData.checklistItems || [];
+            const visibleItems = pool.filter(item => !hidden.includes(item.id));
+
+            if (visibleItems.length === 0) {
+                container.innerHTML = `<p class="text-xs font-bold text-gray-400 text-center py-4">清單暫時係空嘅，在下方新增啦！</p>`;
+                return;
+            }
+
+            visibleItems.forEach(item => {
+                const isChecked = !!checked[item.id];
                 const div = document.createElement('div');
-                div.className = `neo-box-sm p-3 rounded-lg flex items-center justify-between cursor-pointer transition ${item.checked ? 'bg-green-50 line-through text-gray-400' : 'bg-white'}`;
+                div.className = `neo-box-sm p-3 rounded-lg flex items-center justify-between cursor-pointer transition ${isChecked ? 'bg-green-50 line-through text-gray-400' : 'bg-white'}`;
                 div.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" ${item.checked ? 'checked' : ''} class="w-4 h-4 accent-black cursor-pointer" onchange="toggleCheck(${item.id})">
+                        <input type="checkbox" ${isChecked ? 'checked' : ''} class="w-4 h-4 accent-black cursor-pointer" onchange="toggleLocalCheck(${item.id})">
                         <span class="font-bold text-sm">${item.text}</span>
                     </div>
-                    <button onclick="deleteChecklist(${item.id}); event.stopPropagation();" class="text-xs text-red-400 font-bold hover:text-red-600">刪除</button>
+                    <button onclick="openChecklistDeleteModal(${item.id}, '${item.text.replace(/'/g, "\\'")}'); event.stopPropagation();" class="text-xs text-red-400 font-bold hover:text-red-600">移除</button>
                 `;
                 container.appendChild(div);
             });
         }
 
-        window.toggleCheck = function(id) {
-            const item = appData.checklist.find(i => i.id === id);
-            if (item) {
-                item.checked = !item.checked;
-                saveData();
-            }
+        window.toggleLocalCheck = function(id) {
+            const { checked, hidden } = getLocalChecklistState();
+            checked[id] = !checked[id];
+            saveLocalChecklistState(checked, hidden);
         }
 
         window.addChecklistItem = function() {
             const input = document.getElementById('new-item-input');
             const text = input.value.trim();
             if (!text) return;
-            const newId = appData.checklist.length > 0 ? Math.max(...appData.checklist.map(i => i.id)) + 1 : 1;
-            appData.checklist.push({ id: newId, text, checked: false });
+            
+            if (!appData.checklistItems) {
+                appData.checklistItems = [];
+            }
+            const newId = appData.checklistItems.length > 0 ? Math.max(...appData.checklistItems.map(i => i.id)) + 1 : 1;
+            appData.checklistItems.push({ id: newId, text });
             input.value = '';
-            saveData();
+            saveData(); // 儲存到 Firebase 讓大家同步見到
         }
 
-        window.deleteChecklist = function(id) {
-            appData.checklist = appData.checklist.filter(i => i.id !== id);
-            saveData();
+        // 開啟刪除確認 Modal
+        window.openChecklistDeleteModal = function(id, text) {
+            pendingDeleteId = id;
+            document.getElementById('delete-modal-text').innerText = `確定要移除「${text}」嗎？`;
+            document.getElementById('delete-cloud-checkbox').checked = false; // 預設唔勾選雲端刪除
+            document.getElementById('checklist-delete-modal').classList.remove('hidden');
+        }
+
+        // 關閉刪除確認 Modal
+        window.closeChecklistDeleteModal = function() {
+            pendingDeleteId = null;
+            document.getElementById('checklist-delete-modal').classList.add('hidden');
+        }
+
+        // 確認刪除邏輯
+        window.confirmChecklistDelete = function() {
+            if (pendingDeleteId === null) return;
+            const deleteCloud = document.getElementById('delete-cloud-checkbox').checked;
+
+            if (deleteCloud) {
+                // 從雲端 (Firebase) 徹底刪除
+                appData.checklistItems = appData.checklistItems.filter(i => i.id !== pendingDeleteId);
+                saveData();
+            } else {
+                // 只喺本地隱藏
+                const { checked, hidden } = getLocalChecklistState();
+                if (!hidden.includes(pendingDeleteId)) {
+                    hidden.push(pendingDeleteId);
+                }
+                saveLocalChecklistState(checked, hidden);
+            }
+            closeChecklistDeleteModal();
         }
     </script>
 </body>
