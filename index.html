@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12月東京・靜岡 8日7夜之旅</title>
+    <!-- 引入 Google Fonts 圓體 -->
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Zen Maru Gothic"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neo': '4px 4px 0px #1e1e1e',
+                        'neo-sm': '2px 2px 0px #1e1e1e',
+                        'neo-lg': '6px 6px 0px #1e1e1e',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFF9F0;
+            color: #1e1e1e;
+        }
+        .neo-box {
+            border: 3px solid #1e1e1e;
+            box-shadow: 4px 4px 0px #1e1e1e;
+        }
+        .neo-button {
+            border: 3px solid #1e1e1e;
+            box-shadow: 3px 3px 0px #1e1e1e;
+            transition: all 0.1s ease;
+        }
+        .neo-button:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px #1e1e1e;
+        }
+        .neo-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #1e1e1e;
+        }
+    </style>
+</head>
+<body class="pb-16 selection:bg-pink-300">
+
+    <!-- 頂部導航 Tab -->
+    <header class="sticky top-0 z-50 bg-[#FFF9F0] border-b-4 border-[#1e1e1e] py-3 px-4 shadow-sm">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <h1 class="font-black text-lg bg-yellow-200 px-2 py-0.5 neo-box inline-block rotate-[-1deg]">
+                <i class="fa-solid fa-tower-observation mr-1"></i> 12月東京靜岡遊
+            </h1>
+            <div id="sync-status" class="text-xs font-bold text-gray-500 bg-gray-100 px-2 py-1 neo-box">
+                <i class="fa-solid fa-cloud-arrow-up mr-1"></i> 連線中...
+            </div>
+        </div>
+        <nav class="max-w-md mx-auto flex gap-2 mt-3 overflow-x-auto pb-1 text-sm">
+            <button onclick="switchTab('home')" id="tab-home" class="neo-button px-3 py-1.5 font-bold bg-pink-300 rounded-lg whitespace-nowrap">
+                <i class="fa-solid fa-house mr-1"></i> 首頁
+            </button>
+            <button onclick="switchTab('flight')" id="tab-flight" class="neo-button px-3 py-1.5 font-bold bg-white rounded-lg whitespace-nowrap">
+                <i class="fa-solid fa-plane mr-1"></i> 航班
+            </button>
+            <button onclick="switchTab('schedule')" id="tab-schedule" class="neo-button px-3 py-1.5 font-bold bg-white rounded-lg whitespace-nowrap">
+                <i class="fa-solid fa-calendar-days mr-1"></i> 行程
+            </button>
+            <button onclick="switchTab('hotel')" id="tab-hotel" class="neo-button px-3 py-1.5 font-bold bg-white rounded-lg whitespace-nowrap">
+                <i class="fa-solid fa-bed mr-1"></i> 住宿
+            </button>
+            <button onclick="switchTab('checklist')" id="tab-checklist" class="neo-button px-3 py-1.5 font-bold bg-white rounded-lg whitespace-nowrap">
+                <i class="fa-solid fa-list-check mr-1"></i> 清單
+            </button>
+        </nav>
+    </header>
+
+    <main class="max-w-md mx-auto px-4 mt-5">
+
+        <!-- 1. 首頁 Section -->
+        <section id="section-home" class="space-y-4">
+            <div class="neo-box bg-yellow-100 p-5 rounded-xl rotate-[1deg]">
+                <h2 class="text-2xl font-black mb-2">
+                    <i class="fa-solid fa-plane-departure text-red-500 mr-1"></i> 8日7夜 關東 + 靜岡之旅
+                </h2>
+                <p class="text-sm font-bold text-gray-700 leading-relaxed">
+                    12月15日出發直飛成田，中間 16 - 18 號前往靜岡睇富士山與楓葉，最後返回東京歡度聖誕！<i class="fa-solid fa-sparkles text-amber-500 ml-1"></i>
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <div onclick="switchTab('flight')" class="neo-box bg-pink-100 p-4 rounded-xl cursor-pointer hover:bg-pink-200 transition">
+                    <div class="text-2xl mb-1 text-pink-600"><i class="fa-solid fa-plane-up"></i></div>
+                    <div class="font-black">航班資訊</div>
+                    <div class="text-xs text-gray-600 font-bold mt-1">HK Express 直飛</div>
+                </div>
+                <div onclick="switchTab('schedule')" class="neo-box bg-teal-100 p-4 rounded-xl cursor-pointer hover:bg-teal-200 transition">
+                    <div class="text-2xl mb-1 text-teal-600"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <div class="font-black">每日行程</div>
+                    <div class="text-xs text-gray-600 font-bold mt-1">DAY 1 - DAY 8</div>
+                </div>
+                <div onclick="switchTab('hotel')" class="neo-box bg-purple-100 p-4 rounded-xl cursor-pointer hover:bg-purple-200 transition">
+                    <div class="text-2xl mb-1 text-purple-600"><i class="fa-solid fa-hotel"></i></div>
+                    <div class="font-black">住宿安排</div>
+                    <div class="text-xs text-gray-600 font-bold mt-1">東京 / 靜岡酒店</div>
+                </div>
+                <div onclick="switchTab('checklist')" class="neo-box bg-orange-100 p-4 rounded-xl cursor-pointer hover:bg-orange-200 transition">
+                    <div class="text-2xl mb-1 text-orange-600"><i class="fa-solid fa-suitcase"></i></div>
+                    <div class="font-black">行李清單</div>
+                    <div class="text-xs text-gray-600 font-bold mt-1">裝備與證件</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 航班 Section -->
+        <section id="section-flight" class="space-y-4 hidden">
+            <h2 class="text-xl font-black bg-pink-200 px-3 py-1 neo-box inline-block">
+                <i class="fa-solid fa-plane mr-1"></i> 航班詳情 (HK Express)
+            </h2>
+            
+            <!-- 去程 -->
+            <div class="nb-card p-4 bg-white">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="bg-pink-300 text-xs font-black px-2 py-1 neo-box-sm rounded">
+                        <i class="fa-solid fa-plane-departure mr-1"></i> 去程 · 隨心飛
+                    </span>
+                    <span class="font-bold text-sm text-purple-700">UO870</span>
+                </div>
+                <div class="flex justify-between items-center my-3">
+                    <div class="text-center">
+                        <div class="text-3xl font-black">HKG</div>
+                        <div class="text-xs font-bold text-gray-500">香港國際機場</div>
+                        <div class="text-sm font-black mt-1 text-purple-900 bg-yellow-100 px-2 py-0.5 rounded border border-black">10:50</div>
+                    </div>
+                    <div class="text-center px-2">
+                        <div class="text-xl text-pink-500"><i class="fa-solid fa-plane"></i></div>
+                        <div class="text-[10px] font-bold text-gray-400">客運大樓 2</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-black">NRT</div>
+                        <div class="text-xs font-bold text-gray-500">成田國際機場</div>
+                        <div class="text-sm font-black mt-1 text-purple-900 bg-yellow-100 px-2 py-0.5 rounded border border-black">15:55</div>
+                    </div>
+                </div>
+                <div class="text-xs font-bold bg-gray-50 p-2 neo-box-sm rounded text-center mt-2">
+                    <i class="fa-regular fa-calendar-days mr-1"></i> 15 12月, 2026, 周二 (客運大樓 2)
+                </div>
+            </div>
+
+            <!-- 回程 -->
+            <div class="nb-card p-4 bg-white">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="bg-teal-300 text-xs font-black px-2 py-1 neo-box-sm rounded">
+                        <i class="fa-solid fa-plane-arrival mr-1"></i> 回程 · 隨心飛
+                    </span>
+                    <span class="font-bold text-sm text-purple-700">UO647</span>
+                </div>
+                <div class="flex justify-between items-center my-3">
+                    <div class="text-center">
+                        <div class="text-3xl font-black">NRT</div>
+                        <div class="text-xs font-bold text-gray-500">成田國際機場</div>
+                        <div class="text-sm font-black mt-1 text-purple-900 bg-yellow-100 px-2 py-0.5 rounded border border-black">19:00</div>
+                    </div>
+                    <div class="text-center px-2">
+                        <div class="text-xl text-teal-500"><i class="fa-solid fa-plane fa-rotate-180"></i></div>
+                        <div class="text-[10px] font-bold text-gray-400">客運大樓 2</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-black">HKG</div>
+                        <div class="text-xs font-bold text-gray-500">香港國際機場</div>
+                        <div class="text-sm font-black mt-1 text-purple-900 bg-yellow-100 px-2 py-0.5 rounded border border-black">23:25</div>
+                    </div>
+                </div>
+                <div class="text-xs font-bold bg-gray-50 p-2 neo-box-sm rounded text-center mt-2">
+                    <i class="fa-regular fa-calendar-days mr-1"></i> 22 12月, 2026, 周二 (回程抵港 T1)
+                </div>
+            </div>
+
+            <!-- 行李與報到須知 -->
+            <div class="nb-card p-4 bg-[#FFEAA7]">
+                <h4 class="font-black mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-suitcase-rolling"></i> 行李與報到須知
+                </h4>
+                <ul class="text-xs font-bold space-y-1 text-gray-800">
+                    <li>• 客運大樓：香港出發 (T2) | 成田回程 (T2) -> 抵港 (T1)</li>
+                    <li>• 隨身行李：手提行李 1 件 + 隨身物品 1 件 (合計 7kg 以內)</li>
+                    <li>• 注意：登機前請確認托運行李重量與行動電源攜帶規定。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 每日行程 Section -->
+        <section id="section-schedule" class="hidden space-y-4">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-black bg-yellow-200 px-3 py-1 neo-box inline-block">
+                    <i class="fa-solid fa-map mr-1"></i> 每日行程
+                </h2>
+                <button onclick="openAddModal()" class="neo-button bg-green-300 px-3 py-1 text-xs font-black rounded-lg">
+                    <i class="fa-solid fa-plus mr-1"></i> 新增行程
+                </button>
+            </div>
+
+            <!-- 日期橫向切換按鈕 -->
+            <div id="day-tabs" class="flex gap-2 overflow-x-auto pb-2">
+                <!-- 動態生成 DAY 1 - 8 -->
+            </div>
+
+            <!-- 當日行程卡片容器 -->
+            <div id="day-content" class="neo-box bg-white p-5 rounded-xl space-y-4">
+                <!-- 動態載入當日行程 -->
+            </div>
+        </section>
+
+        <!-- 4. 住宿 Section -->
+        <section id="section-hotel" class="hidden space-y-4">
+            <h2 class="text-xl font-black bg-purple-200 px-3 py-1 neo-box inline-block">
+                <i class="fa-solid fa-hotel mr-1"></i> 住宿安排
+            </h2>
+            <div class="neo-box bg-white p-4 rounded-xl space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="font-black text-lg"><i class="fa-solid fa-building mr-1 text-purple-500"></i> 東京市區酒店</span>
+                    <span class="bg-yellow-200 text-xs font-black px-2 py-0.5 neo-box-sm rounded">12/15 - 12/16 & 12/18 - 12/22</span>
+                </div>
+                <p class="text-xs font-bold text-gray-600">待定酒店名稱 (可隨時更新)</p>
+            </div>
+            <div class="neo-box bg-teal-50 p-4 rounded-xl space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="font-black text-lg"><i class="fa-solid fa-hot-tub-person mr-1 text-teal-600"></i> 靜岡 / 富士山溫泉酒店</span>
+                    <span class="bg-teal-200 text-xs font-black px-2 py-0.5 neo-box-sm rounded">12/16 - 12/18 (2晚)</span>
+                </div>
+                <p class="text-xs font-bold text-gray-600">靜岡專屬行程住宿 (待定)</p>
+            </div>
+        </section>
+
+        <!-- 5. 清單 Section -->
+        <section id="section-checklist" class="hidden space-y-4">
+            <h2 class="text-xl font-black bg-orange-200 px-3 py-1 neo-box inline-block">
+                <i class="fa-solid fa-list-check mr-1"></i> 行李與準備清單
+            </h2>
+            
+            <div class="neo-box bg-white p-4 rounded-xl space-y-3">
+                <div id="checklist-items" class="space-y-2">
+                    <!-- 動態載入清單 -->
+                </div>
+                <div class="flex gap-2 mt-4 pt-3 border-t-2 border-dashed border-gray-200">
+                    <input type="text" id="new-item-input" placeholder="新增準備物品..." class="flex-1 neo-box px-3 py-1.5 text-sm font-bold rounded-lg outline-none">
+                    <button onclick="addChecklistItem()" class="neo-button bg-pink-300 px-4 py-1.5 font-black text-sm rounded-lg">
+                        <i class="fa-solid fa-plus mr-1"></i> 新增
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 新增行程 Modal -->
+    <div id="add-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="neo-box bg-white p-5 rounded-xl max-w-sm w-full space-y-4">
+            <h3 class="font-black text-lg"><i class="fa-regular fa-pen-to-square mr-1"></i> 新增行程項目</h3>
+            <div>
+                <label class="text-xs font-bold block mb-1">時間 (例如: 09:00 或 早晨時段)</label>
+                <input type="text" id="input-time" class="w-full neo-box px-3 py-1.5 text-sm font-bold rounded-lg" placeholder="10:00">
+            </div>
+            <div>
+                <label class="text-xs font-bold block mb-1">標題 / 景點名稱</label>
+                <input type="text" id="input-title" class="w-full neo-box px-3 py-1.5 text-sm font-bold rounded-lg" placeholder="築地市場食海鮮">
+            </div>
+            <div>
+                <label class="text-xs font-bold block mb-1">詳細說明 / 備註</label>
+                <textarea id="input-desc" class="w-full neo-box px-3 py-1.5 text-sm font-bold rounded-lg" placeholder="乘搭大江戶線前往..."></textarea>
+            </div>
+            <div class="flex gap-2 justify-end">
+                <button onclick="closeAddModal()" class="neo-button bg-gray-200 px-4 py-1.5 font-bold text-sm rounded-lg">取消</button>
+                <button onclick="saveNewItem()" class="neo-button bg-green-300 px-4 py-1.5 font-black text-sm rounded-lg">儲存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK 引入 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // ==========================================
+        // TODO: 請換成你從 Firebase Console 複製的設定
+        // ==========================================
+        const firebaseConfig = {
+          apiKey: "AIzaSyAQJatKRC34MbBlyY7pmhQdluf0qKNShJg",
+          authDomain: "tokyo-trip-2026-83a1e.firebaseapp.com",
+          projectId: "tokyo-trip-2026-83a1e",
+          storageBucket: "tokyo-trip-2026-83a1e.firebasestorage.app",
+          messagingSenderId: "161190483036",
+          appId: "1:161190483036:web:7f4d9c000b678de6ec0299"
+        };
+
+        // 初始化 Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const docRef = doc(db, "trips", "tokyo_2026");
+
+        // 預設資料
+        const defaultData = {
+            currentDay: 1,
+            schedule: {
+                1: [{ time: "10:50", title: "香港起飛 (UO870)", desc: "前往香港國際機場客運大樓 2 辦理登機" }, { time: "15:55", title: "抵達成田機場", desc: "入境、領取行李並乘搭火車前往東京市區酒店" }],
+                2: [{ time: "全日", title: "靜岡專屬行程 (DAY 2)", desc: "行程內容待補 (可點擊右上角新增行程)" }],
+                3: [{ time: "全日", title: "靜岡專屬行程 (DAY 3)", desc: "行程內容待補 (欣賞富士山與溫泉)" }],
+                4: [{ time: "全日", title: "靜岡專屬行程 (DAY 4)", desc: "行程內容待補 (返回東京市區)" }],
+                5: [{ time: "上午", title: "東京市區探索", desc: "自由活動 / 購物 / Cafe" }],
+                6: [{ time: "上午", title: "東京市區探索", desc: "自由活動 / 購物" }],
+                7: [{ time: "上午", title: "東京市區探索", desc: "最後衝刺購物" }],
+                8: [{ time: "19:00", title: "成田機場起飛 (UO647)", desc: "回程返抵香港 (23:25)" }]
+            },
+            checklist: [
+                { id: 1, text: "香港護照 (有效期 6 個月以上)", checked: true },
+                { id: 2, text: "Visit Japan Web 申報", checked: false },
+                { id: 3, text: "Suica / PASMO 或 智能電話八達通", checked: true },
+                { id: 4, text: "日元現金 / 信用卡", checked: true },
+                { id: 5, text: "SIM 卡 / Roaming 漫遊設定", checked: false }
+            ]
+        };
+
+        let appData = JSON.parse(JSON.stringify(defaultData));
+        let activeDay = 1;
+
+        // 即時監聽 Firestore 資料變更（實現多裝置實時同步）
+        const syncStatus = document.getElementById('sync-status');
+        onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+                appData = docSnap.data();
+                syncStatus.innerHTML = `<i class="fa-solid fa-cloud mr-1 text-green-600"></i> 已雲端同步`;
+                syncStatus.className = "text-xs font-bold text-green-600 bg-green-50 px-2 py-1 neo-box";
+            } else {
+                setDoc(docRef, defaultData);
+            }
+            renderScheduleTabs();
+            renderScheduleContent();
+            renderChecklist();
+        }, (error) => {
+            console.error("Sync error:", error);
+            syncStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1 text-orange-600"></i> 離線模式`;
+            syncStatus.className = "text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 neo-box";
+        });
+
+        // 儲存資料到 Firestore
+        async function saveData() {
+            try {
+                await setDoc(docRef, appData);
+            } catch (e) {
+                console.error("Error saving: ", e);
+            }
+        }
+
+        // Tab 切換邏輯
+        window.switchTab = function(tabName) {
+            ['home', 'flight', 'schedule', 'hotel', 'checklist'].forEach(t => {
+                document.getElementById(`section-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = "neo-button px-3 py-1.5 font-bold bg-white rounded-lg whitespace-nowrap";
+            });
+            document.getElementById(`section-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).className = "neo-button px-3 py-1.5 font-bold bg-pink-300 rounded-lg whitespace-nowrap";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 渲染每日行程日期按鈕 (DAY 1 - 8)
+        function renderScheduleTabs() {
+            const container = document.getElementById('day-tabs');
+            container.innerHTML = '';
+            
+            const dates = [
+                { day: 1, date: "12/15 (二)" },
+                { day: 2, date: "12/16 (三)", tag: "靜岡" },
+                { day: 3, date: "12/17 (四)", tag: "靜岡" },
+                { day: 4, date: "12/18 (五)", tag: "靜岡" },
+                { day: 5, date: "12/19 (六)" },
+                { day: 6, date: "12/20 (日)" },
+                { day: 7, date: "12/21 (一)" },
+                { day: 8, date: "12/22 (二)" },
+            ];
+
+            dates.forEach(d => {
+                const isSelected = activeDay === d.day;
+                const isShizuoka = [2, 3, 4].includes(d.day);
+                const btn = document.createElement('button');
+                btn.className = `neo-button px-3 py-2 rounded-xl text-center whitespace-nowrap transition ${isSelected ? (isShizuoka ? 'bg-teal-300' : 'bg-pink-300') : (isShizuoka ? 'bg-teal-50' : 'bg-white')}`;
+                btn.innerHTML = `
+                    <div class="text-[10px] font-bold text-gray-500">${d.tag || 'DAY ' + d.day}</div>
+                    <div class="font-black text-sm">${d.date}</div>
+                `;
+                btn.onclick = () => {
+                    activeDay = d.day;
+                    renderScheduleTabs();
+                    renderScheduleContent();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        // 渲染當日行程內容
+        function renderScheduleContent() {
+            const container = document.getElementById('day-content');
+            const items = appData.schedule[activeDay] || [];
+            
+            const isShizuoka = [2, 3, 4].includes(activeDay);
+            let html = `
+                <div class="flex justify-between items-center pb-3 border-b-2 border-gray-100">
+                    <div>
+                        <span class="text-xs font-black px-2 py-0.5 neo-box-sm rounded ${isShizuoka ? 'bg-teal-200' : 'bg-yellow-200'}">DAY ${activeDay}</span>
+                        <h3 class="font-black text-lg mt-1">${isShizuoka ? '<i class="fa-solid fa-mountain mr-1"></i> 靜岡 / 富士山專屬行程' : '<i class="fa-solid fa-city mr-1"></i> 東京行程'}</h3>
+                    </div>
+                </div>
+                <div class="space-y-3">
+            `;
+
+            if (items.length === 0) {
+                html += `<p class="text-xs font-bold text-gray-400 text-center py-6">這一天還沒有行程，點擊右上角新增吧！</p>`;
+            } else {
+                items.forEach((item, index) => {
+                    html += `
+                        <div class="neo-box-sm bg-gray-50 p-3 rounded-lg flex justify-between items-start">
+                            <div>
+                                <span class="bg-purple-200 text-[10px] font-black px-1.5 py-0.5 rounded">${item.time}</span>
+                                <h4 class="font-black text-sm mt-1">${item.title}</h4>
+                                <p class="text-xs font-bold text-gray-600 mt-0.5">${item.desc}</p>
+                            </div>
+                            <button onclick="deleteScheduleItem(${index})" class="text-xs font-bold text-red-500 hover:text-red-700 px-1">✕</button>
+                        </div>
+                    `;
+                });
+            }
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // 新增行程相關 Modal
+        window.openAddModal = function() {
+            document.getElementById('add-modal').classList.remove('hidden');
+        }
+        window.closeAddModal = function() {
+            document.getElementById('add-modal').classList.add('hidden');
+            document.getElementById('input-time').value = '';
+            document.getElementById('input-title').value = '';
+            document.getElementById('input-desc').value = '';
+        }
+        window.saveNewItem = function() {
+            const time = document.getElementById('input-time').value || '未定';
+            const title = document.getElementById('input-title').value;
+            const desc = document.getElementById('input-desc').value;
+            if (!title) {
+                alert('請輸入行程標題！');
+                return;
+            }
+            if (!appData.schedule[activeDay]) {
+                appData.schedule[activeDay] = [];
+            }
+            appData.schedule[activeDay].push({ time, title, desc });
+            saveData();
+            closeAddModal();
+        }
+        window.deleteScheduleItem = function(index) {
+            if (confirm('確定刪除這個行程？')) {
+                appData.schedule[activeDay].splice(index, 1);
+                saveData();
+            }
+        }
+
+        // 渲染 CheckList
+        function renderChecklist() {
+            const container = document.getElementById('checklist-items');
+            container.innerHTML = '';
+            appData.checklist.forEach(item => {
+                const div = document.createElement('div');
+                div.className = `neo-box-sm p-3 rounded-lg flex items-center justify-between cursor-pointer transition ${item.checked ? 'bg-green-50 line-through text-gray-400' : 'bg-white'}`;
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" ${item.checked ? 'checked' : ''} class="w-4 h-4 accent-black cursor-pointer" onchange="toggleCheck(${item.id})">
+                        <span class="font-bold text-sm">${item.text}</span>
+                    </div>
+                    <button onclick="deleteChecklist(${item.id}); event.stopPropagation();" class="text-xs text-red-400 font-bold hover:text-red-600">刪除</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        window.toggleCheck = function(id) {
+            const item = appData.checklist.find(i => i.id === id);
+            if (item) {
+                item.checked = !item.checked;
+                saveData();
+            }
+        }
+
+        window.addChecklistItem = function() {
+            const input = document.getElementById('new-item-input');
+            const text = input.value.trim();
+            if (!text) return;
+            const newId = appData.checklist.length > 0 ? Math.max(...appData.checklist.map(i => i.id)) + 1 : 1;
+            appData.checklist.push({ id: newId, text, checked: false });
+            input.value = '';
+            saveData();
+        }
+
+        window.deleteChecklist = function(id) {
+            appData.checklist = appData.checklist.filter(i => i.id !== id);
+            saveData();
+        }
+    </script>
+</body>
+</html>
